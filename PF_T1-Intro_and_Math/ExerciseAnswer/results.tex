@@ -1,0 +1,190 @@
+\documentclass[12pt, a4paper, oneside]{article}
+\usepackage{amsmath, amsthm, amssymb, bm, graphicx, hyperref, mathrsfs, xcolor, mdframed, mathrsfs}
+\newcommand{\bhref}[2]{
+    \href{#1}{\color{blue}{#2}}
+}
+\newcommand{\vecf}{\mathbf{f}}
+
+\linespread{1.5}
+\newcounter{problemname}
+\newenvironment{problem}{\begin{shadecolorbox}
+    \stepcounter{problemname}\par\noindent\textsc{Problem \arabic{problemname}. }}
+    {\end{shadecolorbox}\par}
+\newenvironment{note}{\begin{notecolorbox}
+    \par\noindent\textsc{Note of Problem \arabic{problemname}. }}
+    {\end{notecolorbox}\par}
+\newenvironment{warn}{\begin{warncolorbox}
+    \par\noindent\textsc{Warning!}}
+    {\end{warncolorbox}\par}
+\newenvironment{solution}{\par\noindent\emph{Solution. }}{\par}
+
+\definecolor{shadecolor}{RGB}{241, 241, 255}
+\definecolor{notecolor}{RGB}{230, 242, 252}
+\definecolor{warncolor}{RGB}{255, 211, 197}
+
+\newmdenv[linecolor=white,backgroundcolor=notecolor]{notecolorbox}
+\newmdenv[linecolor=white,backgroundcolor=warncolor]{warncolorbox}
+\newmdenv[linecolor=white,backgroundcolor=shadecolor]{shadecolorbox}
+
+
+\begin{document}
+
+\title{Phase Field Tutorial 1: Exercise Results}
+\author{AMoment\thanks{Which is isomorphic to F(). E-mail: \bhref{mailto:amoment096@gmail.com}{amoment096@gmail.com}}}
+\date{\today}
+\maketitle
+
+\begin{problem}
+Suppose there are three functions:\(\phi,\psi : \mathbb{R}^3 \to \mathbb{R}\) and \(\vecf : \mathbb{R} \to \mathbb{R}^3\).
+Please prove the following indentities:
+\[\nabla\left( \phi\psi \right) = \phi\nabla\psi + \psi\nabla\phi\]
+\[\nabla\cdot\left( \phi\vecf \right) = \nabla\phi\cdot\vecf + \phi\nabla\cdot\vecf.\]
+\end{problem}
+\medskip
+\begin{proof}
+    By the definition of the \(\nabla\):
+    \[
+        \nabla = \begin{bmatrix}
+            \frac{\partial }{\partial x_1} \\
+            \frac{\partial }{\partial x_2} \\
+            \frac{\partial }{\partial x_3}
+        \end{bmatrix} = \left[
+            \frac{\partial }{\partial x_1},
+            \frac{\partial }{\partial x_2},
+            \frac{\partial }{\partial x_3}
+            \right]^\mathsf{T},
+    \]
+    thus we have:
+    \begin{align*}
+        \nabla\left( \phi\psi \right)
+         & = \left[
+            \frac{\partial \left( \phi\psi \right)}{\partial x_1} ,\,
+            \frac{\partial \left( \phi\psi \right)}{\partial x_2} ,\,
+            \frac{\partial \left( \phi\psi \right)}{\partial x_3}
+        \right]^\mathsf{T}                           \\
+         & =\left[
+            \frac{\partial \phi}{\partial x_1}\psi + \phi \frac{\partial \psi}{\partial x_1} ,\,
+            \frac{\partial \phi}{\partial x_2}\psi + \phi \frac{\partial \psi}{\partial x_2} ,\,
+            \frac{\partial \phi}{\partial x_3}\psi + \phi \frac{\partial \psi}{\partial x_3}
+        \right]^\mathsf{T}                           \\
+         & =\left[
+            \psi\frac{\partial \phi}{\partial x_1} ,\,
+            \psi\frac{\partial \phi}{\partial x_2} ,\,
+            \psi\frac{\partial \phi}{\partial x_3}
+            \right]^\mathsf{T} +
+        \left[
+            \phi \frac{\partial \psi}{\partial x_1} ,\,
+            \phi \frac{\partial \psi}{\partial x_2} ,\,
+            \phi \frac{\partial \psi}{\partial x_3}
+        \right]^\mathsf{T}                           \\
+         & = \psi\left[
+            \frac{\partial \phi}{\partial x_1} ,\,
+            \frac{\partial \phi}{\partial x_2} ,\,
+            \frac{\partial \phi}{\partial x_3}
+            \right]^\mathsf{T} +
+        \phi\left[
+            \frac{\partial \psi}{\partial x_1} ,\,
+            \frac{\partial \psi}{\partial x_2} ,\,
+            \frac{\partial \psi}{\partial x_3}
+        \right]^\mathsf{T}                           \\
+         & =        \phi\nabla\psi + \psi\nabla\phi,
+    \end{align*}
+    and:
+    \begin{align*}
+        \nabla\cdot\left( \phi\vecf \right)
+         & =
+        \left[
+            \frac{\partial }{\partial x_1} ,\,
+            \frac{\partial }{\partial x_2} ,\,
+            \frac{\partial }{\partial x_3}
+            \right]^\mathsf{T}
+        \cdot
+        \left[
+            \phi{f_1} ,\,
+            \phi{f_2} ,\,
+            \phi{f_3}
+        \right]^\mathsf{T}                                                              \\
+         & =
+        \frac{\partial }{\partial x_1}\phi{f_1} +
+        \frac{\partial }{\partial x_2}\phi{f_2} +
+        \frac{\partial }{\partial x_3}\phi{f_3}                                         \\
+         & =
+        \frac{\partial \phi}{\partial x_1}f_1 + \frac{\partial {f_1}}{\partial x_1}\phi+
+        \frac{\partial \phi}{\partial x_2}f_2 + \frac{\partial {f_2}}{\partial x_2}\phi+
+        \frac{\partial \phi}{\partial x_3}f_3 + \frac{\partial {f_3}}{\partial x_3}\phi \\
+         & =
+        \left(
+        \frac{\partial \phi}{\partial x_1}f_1 +
+        \frac{\partial \phi}{\partial x_2}f_2 +
+        \frac{\partial \phi}{\partial x_3}f_3 \right)
+        +
+        \left(
+        \phi\frac{\partial {f_1}}{\partial x_1}+
+        \phi\frac{\partial {f_2}}{\partial x_2}+
+        \phi\frac{\partial {f_3}}{\partial x_3}  \right)                                \\
+         & = \nabla\phi\cdot\vecf + \phi\nabla\cdot\vecf,
+    \end{align*}
+\end{proof}
+
+\begin{problem}
+Please try to subsitute the following free energy functional into Cahn-Hilliard equation get the gonvering equation:
+\[F\left( x,c,\nabla c \right) = \int_{\Omega} f(c) + \frac{\kappa}{2}\left( \nabla c \right)^2 \,\mathrm{d}v.\]
+Notice that the mobility \(M_{ij}\) of Cahn-Hilliard equation is considered as a constant:
+\begin{align*}
+    \frac{\partial c_i}{\partial t}
+     & =   \nabla \cdot M_{ij} \nabla \frac{\delta F}{\delta c_j \left( r,t \right)} \\
+     & = M\nabla^2 \frac{\delta F}{\delta c_j \left( r,t \right)}.
+\end{align*}
+\end{problem}
+
+\begin{solution}
+    The variational derivative of a functional of the following form:
+    \[
+        J[y] = \int_{\Omega} L(x,y(x),\nabla y(x))\,\mathrm{d}\omega
+    \]
+    is:
+    \[
+        \frac{\delta J[y]}{\delta y} = \frac{\partial L}{\partial y}-
+        \nabla\cdot\frac{\partial L}{\partial \nabla{y}}.
+    \]
+    Thus, by taking variational derivative of the free energy functional: \(F[c] = F(x,c,\nabla c)\),
+    and define free energy density \(f_t(x,c,\nabla c) = f(c) + \frac{\kappa}{2}\left( \nabla c \right)^2\),
+    we will get:
+    \begin{align*}
+        \frac{\delta F}{\delta c_j}
+         & = \frac{\partial f_t}{\partial c_j}-
+        \nabla\cdot\frac{\partial f_t}{\partial \nabla{c_j}}.                               \\
+         & = \frac{\partial f}{\partial c_j} - \nabla\cdot \left( \kappa \nabla c_j \right) \\
+         & = \frac{\partial f}{\partial c_j} - \kappa \nabla^2 c_j.
+    \end{align*}
+    So, the final gonvering equation will be:
+    \[\frac{\partial c_i}{\partial t} = M \nabla^2 \left( \frac{\partial f}{\partial c_j} - \kappa \nabla^2 c_j \right).\]
+
+\end{solution}
+
+\begin{note}
+    \begin{enumerate}
+        \item The variational derivative of a functional \(F\) with gradient of function (\(\nabla{c}\))  as its derivative to the variable ( \(y'\) ) should
+              replace \( \frac{\mathrm{d} }{\mathrm{d} x}()\) with \(\nabla \cdot()\).
+              You can refer to the \bhref{https://en.wikipedia.org/wiki/Functional_derivative\#Formula}{Wiki} for more information.
+        \item Take a look at the integrand of the free energy functional, you will find that \(\left( \nabla c \right)^2\) should be a scalar. Indeed this is the inner
+              product of the gradient of concentration. Fortunately, the derivative of \(\nabla c \cdot \nabla c \) with respect to the vector \(\nabla c\) is still \(2\nabla c\).
+        \item There is another way to consider the variational derivative, especially the latter part of the Euler-Lagrange function. Below is from \bhref{https://blog.csdn.net/kuailezhizi1996/article/details/129011165}{this blog}:
+              \begin{align*}
+                  \delta F & = \delta \int_{\Omega} \left(  f(c) + \frac{\kappa}{2}\left( \nabla c \right)^2\right) \,\mathrm{d}\omega                                                                                               \\
+                           & = \delta \int_{\Omega} \left(  f(c) + \frac{\kappa}{2}\left|\nabla c \right|^2 \right) \,\mathrm{d}\omega                                                                                               \\
+                           & = \int_{\Omega} \left( \delta f(c) + \kappa\,\delta\partial_i c\, \partial_i c \right) \,\mathrm{d}\omega                                                                                               \\
+                           & = \int_{\Omega} \left(  \frac{\partial f(c)}{\partial c} \delta c + \kappa\,\partial_i\delta c\, \partial_i c \right) \,\mathrm{d}\omega                                                                \\
+                           & = \int_{\Omega} \left( \frac{\partial f(c)}{\partial c} \delta c + \kappa\left[ \partial_i (\partial_i c \delta c) - \partial_i \partial_i c \delta c \right] \right) \,\mathrm{d}\omega                \\
+                           & = \int_{\Omega} \left( \frac{\partial f(c)}{\partial c} - \kappa \partial_i \partial_i c \right)\,\delta c  \mathrm{d}\omega + \int_{\Omega}\kappa \partial_i (\partial_i c \delta c)\,\mathrm{d}\omega \\
+                           & = \int_{\Omega} \left( \frac{\partial f(c)}{\partial c} - \kappa \partial_{ii} c  \right)\,\delta c \mathrm{d}\omega + \int_{\partial\Omega}\kappa \partial_i c n_i \,\delta c\mathrm{d}\omega          \\
+                           & = \int_{\Omega} \left( \frac{\partial f(c)}{\partial c} - \kappa \nabla^2 c  \right) \,\delta c\mathrm{d}\omega + \int_{\partial\Omega}\kappa \nabla c \cdot \mathbf{n} \,\delta c\mathrm{d}\omega
+              \end{align*}
+              Now as the gradient is perpendicular to the normal vector along the edge of the solving domain \(\partial\Omega\), the last term \(\nabla c \cdot \mathbf{n}\) should be 0.
+              By this way, we, in another way, obtain the variational derivative of free energy functional.
+    \end{enumerate}
+
+\end{note}
+
+
+\end{document}

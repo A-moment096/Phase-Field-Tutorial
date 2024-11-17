@@ -187,7 +187,5 @@ double declared_first(double num_1, int num_2) {
 // a lot of great resources and discussion boards or forums. You may find way to solve your question
 // by just searching online.
 
-// The next part, I will quickly review the algorithms we dicussed before, together with 
-// class and struct in C++. It should be easy, as class and struct hardly provides anything new,
-// if you don't need access control (actually, in small project, you generally just use struct),
-// and you just combine what you have already together with some knowledge from Python.
+// The next part, we will quickly review the algorithms we dicussed before, 
+// and just combine what we have already, together with some knowledge from Python.
