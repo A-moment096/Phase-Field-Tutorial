@@ -35,13 +35,17 @@ int main() {
     // Create a folder named "results" to hold the results
     std::filesystem::create_directories(result_dir);
 
+    int bound_type{0}; // A switch to choose boundary condition (BC). 0 for fixed, 1 for periodic.
     // Set an empty string to hold different file name for different type of BC.
     std::string result_type{};
 
     // Initialize the grid:
     std::vector<double> mesh(Nx, 0.0);
     for (int i = 0; i < Nx; i++) {
-        if (i >= 44 && i <= 84) {
+        // if (i >= 44 && i <= 84) {
+        //     mesh.at(i) = 1.0;
+        // }
+        if (i <= 44) {
             mesh.at(i) = 1.0;
         }
     }
@@ -60,17 +64,33 @@ int main() {
 
             // Assign BC according to bound_type
             // Fixed boundary condition (to 0)
-            if (-1 == im) {
-                val_m = 0.0;
-            } else {
-                val_m = mesh.at(im);
+            if (0 == bound_type) {
+                if (-1 == im) {
+                    val_m = 1.0;
+                } else {
+                    val_m = mesh.at(im);
+                }
+                if (Nx == ip) {
+                    val_p = 0.0;
+                } else {
+                    val_p = mesh.at(ip);
+                }
+                result_type = "fixed_step_";
             }
-            if (Nx == ip) {
-                val_p = 0.0;
-            } else {
-                val_p = mesh.at(ip);
+            // Periodic boundary condition
+            if (1 == bound_type) {
+                if (-1 == im) {
+                    val_m = mesh.at(Nx - 1);
+                } else {
+                    val_m = mesh.at(im);
+                }
+                if (Nx == ip) {
+                    val_p = mesh.at(0);
+                } else {
+                    val_p = mesh.at(ip);
+                }
+                result_type = "periodic_step_";
             }
-            result_type = "fixed_step_";
 
             // Calculate:
             // The double partial differential is discretized as

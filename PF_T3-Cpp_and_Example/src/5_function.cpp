@@ -167,7 +167,7 @@ int main() {
 
 // Here you should implement the function you declared before:
 
-double declared_first(double num_1, int num_2) {
+double declare_first(double num_1, int num_2) {
     std::cout << num_1 << std::endl;
     std::cout << num_1 * double(num_2) << std::endl; // Here I use force cast, casting int to
     // double, which is  definitely a bad idea.
