@@ -1,6 +1,6 @@
-/*
+## OOP in C++
 
- --- EXTRA PART --- EXTRA PART --- EXTRA PART --- EXTRA PART ---
+**This part is Optional. You are safe to skip this part**
 
 In this part, we are going to talk about the class in C++ programming.
 
@@ -13,8 +13,7 @@ presented in different languages are merely just some syntaxical details.
 We have already implemented this in Python, and the basic algorithms
 are, also, have been implemented in last part. If you are not interested in
 C++'s OOP implementation, you can just safely ignore this chapter and go ahead.
-*/
-
+```cpp
 #include <array>
 #include <cmath>
 #include <filesystem>
@@ -23,16 +22,28 @@ C++'s OOP implementation, you can just safely ignore this chapter and go ahead.
 #include <sstream>
 #include <string>
 #include <vector>
+```
 
-// We are going to define a class called mesh, just like what we have done in Python:
+### Class definition
 
+To display the explanation text outside of the code, the definition of this class
+is divided. The code in this subsection should be considered as a whole.
+
+We are going to define a class called mesh, just like what we have done in Python.
+
+```cpp
 class mesh {
-    // below is a keyword: public.
-    // *public* means everything below this keyword can be accessed from outside.
-    // There are also other two access control keywords: private and protect.
-    // *private* means things only can be accessed by this class's members/methods;
-    // *protect* means only this class and its derived class can have access to
-    // things below this keyword.
+```
+
+below is a keyword: public.
+- *public* means everything below this keyword can be accessed from outside.
+
+There are also other two access control keywords: private and protect.
+- *private* means things only can be accessed by this class's members/methods;
+- *protect* means only this class and its derived class can have access to
+things below this keyword.
+
+```cpp
 public:
     int x_len{};
     // To make it simpler, we omit y_len;
@@ -48,36 +59,48 @@ public:
     std::vector<std::vector<double>> laps{};
     std::vector<std::vector<double>> grads_x{};
     std::vector<std::vector<double>> grads_y{};
+```
+Again, we assume periodic boundary condition
 
-    // Again, we assume periodic boundary condition
+Below is *constructor* of this class. It will be called when you
+create an instance of this class. It's considered as a good
+practice that you initialize your object with constuctor.
 
-    // This is constructor of this class. It will be called when you
-    // create an instance of this class. It's considered as a good
-    // practice that you initialize your object with constuctor.
+```cpp
     mesh(int new_x_len, double new_dx);
-    // Here we just declare this function, and don't define it. You also can define it
-    // right now. You can also make function as parameter of this function, then you 
-    // can automatically initialize your mesh values with the function you give in 
-    // the parameter list when your mesh is created. But here, we just leave it
-    // simple.
+```
 
-    // Below is called deconstructor. As its name indicates, it will
-    // be called when the object is ending its life. Normally you
-    // should delete any resource you applied explictly (with POINTERs) here, but
-    // as we have no variable handled by us explicitly, we just leave it blank.
+Here we just declare this function, and don't define it. You also can define it
+right now. You can also make function as parameter of this function, then you 
+can automatically initialize your mesh values with the function you give in 
+the parameter list when your mesh is created.But here, we just leave it
+simple.
+
+Below is called *deconstructor*. As its name indicates, it will
+be called when the object is ending its life. Normally you
+should delete any resource you applied explictly (with POINTERs) here, but
+as we have no variable handled by us explicitly, we just leave it blank.
+
+```cpp
     ~mesh(){}
+```
 
-    // We also want to define some other functions.
-    // For example, assign the nearby points according to the boundary conditions:
+We also want to define some other functions.
+For example, assign the nearby points according to the boundary conditions:
 
-    //  like calculating gradients and laplacians.
+like calculating gradients and laplacians.
+```cpp
     void cal_grads();
     void cal_laps();
+    // Don't forget the ending curly bracket and semicolon after that.
 };
+```
 
-// You can define the functions outside of the class/struct
-// First we define the *constructor*
+### Define the Member Functions (Methods)
+You can define the functions outside of the `class` / `struct`
 
+First we define the *constructor*
+```cpp
 mesh::mesh(int new_x_len, double new_dx) {
     // You can just call the variable / properties defined inside of class
     // by its name. It's different from Python, in which you must use "self".
@@ -106,14 +129,17 @@ mesh::mesh(int new_x_len, double new_dx) {
         grads_y.push_back(row);
     }
 }
-// Then, we define the function to calculate the gradient and laplacian.
+```
+Then, we define the function to calculate the gradient and laplacian.
 
-// We can use a little bit math and modulo arithmetic to process the periodic boundary condition:
-// (-1+x_len)%x_len == x_len -1; 
-// (x_len + x_len)%x_len  == 0;
-// In this way we avoid `if` check to find the boundaries. The `//` below in `cal_laps` is just for
-// formatting. Otherwise the auto formatter will collapse this long line.
-
+We can use a little bit math and modulo arithmetic to process the periodic boundary condition:
+```cpp
+(-1+x_len)%x_len == x_len -1; 
+(x_len + x_len)%x_len  == 0;
+```
+In this way we avoid `if` check to find the boundaries. The `//` below in `cal_laps` is just for
+formatting. Otherwise the auto formatter will collapse this long line.
+```cpp
 void mesh::cal_grads() {
     for (int i = 0; i < this->x_len; i++) {
         for (int j = 0; j < this->x_len; j++) {
@@ -140,13 +166,19 @@ void mesh::cal_laps() {
         }
     }
 }
+```
+### Other Functions
 
-// Here, we use Normal Distribution's function to assign value for our mesh
+Here, we use Normal Distribution's function to assign value for our mesh
+
+```cpp
 double Normal_CDF(double x, double mu, double sigma) {
     return 0.5 * (1.0 + std::erf((x - mu) / (sigma * std::sqrt(2.0))));
 }
+```
 
-// Use this function to output the values from the vector to csv file.
+And we use this function to output the values from the vector to csv file.
+```cpp
 void to_csv_3D(std::vector<std::vector<double>> vec_val, std::string fname) {
     std::string filename{"./results/" + fname + ".csv"};
     std::ofstream ofs(filename);
@@ -160,10 +192,12 @@ void to_csv_3D(std::vector<std::vector<double>> vec_val, std::string fname) {
         ofs.close();
     }
 }
+```
 
-// Finally, we define the `main` function as the enter ponit of the program, and perform 
-// the things we want to do. 
+Finally, we define the `main` function as the enter ponit of the program, and perform 
+the things we want to do. 
 
+```cpp
 int main() {
     std::filesystem::create_directory("./results");
     mesh m1(100, 0.1);
@@ -189,3 +223,18 @@ int main() {
     to_csv_3D(m1.grads_y, "grady");
     to_csv_3D(m1.laps, "laps");
 }
+```
+
+And now, you are welcomed to execute this code, and have a look at what will this program do. If you 
+see there is a new folder called "results" and inside this folder are four csv files, then you can use
+the Python script I prepared called "7_plot.py" to plot the results you get from the C++ program.
+
+Please feel free to modify the code here. It's always a good idea to learn a language by using it. 
+
+And that's all for this part. **Congrates!** You almost have acquired all the basic grammar skills of C++ you need
+for performing a calculation. 
+
+Now please go ahead for the last part, there is a simple simulation example, about
+the heat transfer equaiton. You might find it extremly simple, but that's basically the things we will do in the 
+following tutorial. And actually, the "heat transfer equaiton" example is from the book we often refering to:
+*Programming Phase-Field Modeling*. Hope you enjoy. 

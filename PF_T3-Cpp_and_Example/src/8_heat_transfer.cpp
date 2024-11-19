@@ -27,6 +27,9 @@ const double mu = 1.0; // \mu = \frac{\lambda}{\rho c_p}
 const int nstep = 30000;
 const int pstep = 200; // Print step (0, 200, 400, 600)
 
+// And here is the `main` function we are going to use. We don't define
+// any outside function here.
+
 int main() {
     // Time counter, record the begin time of this program.
     auto begin_time{std::chrono::high_resolution_clock::now()};
@@ -108,3 +111,23 @@ int main() {
     // for "main" function, "return 0;" is optional.
     return 0;
 }
+
+/*
+After you execute this program, you will see a new folder 
+(or maybe you already have this folder) named
+"results", and inside of this folder there will be a lot of files named 
+as "fixed_step_xxx.csv". Those are the results of this program, and you 
+can visualize the result with methods you like.
+
+Here I recommend the following ways:
+- Using Python to plot the results. You can utilize the `matplotlib` 
+    module to plot the results after using `pandas` or `np.loadtxt` to 
+    load the data from csv file to the program.
+- Using Paraview to visualize the result. Paraview have built-in CSV 
+    file parser, and can plot the result very quickly. It can also 
+    display animation with group of files. We shall use this software 
+    after to visualize the phase field simulation results in the future.
+- Using other program, such as MATLAB or Wolfram Mathematica to do 
+    the curve plotting if you are familar to these software.
+
+*/
