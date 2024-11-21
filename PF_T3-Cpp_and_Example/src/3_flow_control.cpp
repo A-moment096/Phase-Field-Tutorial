@@ -50,6 +50,7 @@ int main() {
     int k = 0;
     do {
         c += 2;
+        k++;
     } while (k < 5);
 
     // And to end this loop part, allow me introduce another newer feature in C++: range loop.
@@ -91,7 +92,7 @@ int main() {
     // It should be very clear that everything comes naturally.
 
     // I'm not going to introduce "switch-case" expression and "goto". You can explore them by yourself.
-    // However, please notice that, you should not use goto as it easily gets you into troubles with bugs. 
+    // However, please notice that, you should not use goto as it easily gets you into troubles with bugs.
 
     // We have encountered "function" for many times. But before function, allow me to introduce the
     // so called "the most difficult part of C/C++": pointers and references, in the next part.

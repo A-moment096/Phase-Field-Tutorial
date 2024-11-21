@@ -151,6 +151,8 @@ int main() {
     // Wow, it's still 3! Why? Please jump back to the position before the "main" function.
 
     increase_1_ref(num2);
+    std::cout << num2 << std::endl;
+    
     // To pass reference, you just pass the name. That's really simple, and it indicates
     // that: to control a variable wheather is modifiable by function, you just decide
     // "pass by value" and write the plain parameter list, or "pass by reference" and write

@@ -107,6 +107,7 @@ int c = 7;
 int k = 0;
 do {
     c += 2;
+    k++;
 } while (k < 5);
 ```
 And to end this loop part, allow me introduce another newer feature in C++: range loop.

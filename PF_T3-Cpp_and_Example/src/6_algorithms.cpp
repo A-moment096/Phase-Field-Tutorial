@@ -72,7 +72,7 @@ std::vector<double> ForwardEuler(double RHS(double, double), std::array<double, 
 
     for (int i = 0; i < num_steps; i++) {
         double u_last = result.at(i);                 // Find the last step result's value;
-        double next_step = RHS(x_axis.at(1), u_last); // Calculate RHS;
+        double next_step = RHS((double)i*x_axis.at(1)+x_axis.at(0), u_last); // Calculate RHS;
         next_step *= x_axis.at(1);                    // RHS * dx
         next_step += u_last;                          // RHS * dx + u_last
         result.push_back(next_step);                  // u_this = RHS * dx + u_last
