@@ -35,14 +35,12 @@ void write_vtk_head(std::ofstream &ofs, std::string filename, double dx, size_t 
             ofs << (double)i * dx << " " << (double)j * dx << " " << 1 << std::endl;
         }
     }
-    ofs.close();
+    ofs << "POINT_DATA " << Nx * Ny * 1 << std::endl;
 }
 
 void write_vtk_data(std::vector<std::vector<double>> mesh, std::ofstream &ofs, std::string data_label, double dx) {
     size_t Nx{mesh.size()}, Ny{mesh.at(0).size()};
-    ofs << "POINT_DATA " << Nx * Ny * 1 << std::endl;
-
-    ofs << "SCALARS " << data_label << "float 1\n";
+    ofs << "SCALARS " << data_label << " float 1\n";
     ofs << "LOOKUP_TABLE default\n";
     for (size_t i = 0; i < Nx; i++) {
         for (size_t j = 0; j < Ny; j++) {
@@ -50,22 +48,22 @@ void write_vtk_data(std::vector<std::vector<double>> mesh, std::ofstream &ofs, s
         }
     }
 }
+
 int main() {
     int Nx = 64;
-    double dx = 0.5;
-    double dt = 0.005;
+    double dx = 0.5, dt = 0.005;
     int nstep = 20000, pstep = 100;
-    int radius = 7;
-    double mobility = 5.0;
-    double kappa = 0.1;
+    int radius = 14;
+    double mobility = 5.0, kappa = 0.1;
     double A = 1.0, B = 1.0;
+    double eta_trun = 1e-6;
 
-    std::vector<std::vector<double>> grain_1(Nx, std::vector<double>(Nx, 0.0));
+    std::vector<std::vector<double>> grain_1(Nx, std::vector<double>(Nx, 0));
     auto grain_2 = grain_1;
 
     for (int i = 0; i < Nx; i++) {
         for (int j = 0; j < Nx; j++) {
-            if ((i - Nx / 2) * (i - Nx / 2) + (j - Nx / 2) * (j - Nx / 2) <= radius * radius) {
+            if ((i - Nx / 2) * (i - Nx / 2) + (j - Nx / 2) * (j - Nx / 2) < radius * radius) {
                 grain_1.at(i).at(j) = 1.0;
                 grain_2.at(i).at(j) = 0.0;
             } else {
@@ -76,21 +74,21 @@ int main() {
     }
 
     std::vector<std::vector<std::vector<double>>> grains = {grain_1, grain_2};
-    std::vector<std::vector<std::vector<double>>> grains_temp = {grain_1, grain_2};
+    auto grains_temp = grains;
 
-    for (int istep = 0; istep < nstep; istep++) {
-        std::vector<std::vector<double>> grain_square_sum(Nx, std::vector<double>(Nx, 0.0));
+    for (int istep = 0; istep < nstep + 1; istep++) {
+        std::vector<std::vector<double>> grain_square_sum(Nx, std::vector<double>(Nx, 0));
         for (int igrain = 0; igrain < 2; igrain++) {
             for (int i = 0; i < Nx; i++) {
                 for (int j = 0; j < Nx; j++) {
-                    grain_square_sum.at(i).at(j) = grains.at(igrain).at(i).at(j) * grains.at(igrain).at(i).at(j);
+                    grain_square_sum.at(i).at(j) += grains.at(igrain).at(i).at(j) * grains.at(igrain).at(i).at(j);
                 }
             }
         }
         for (int igrain = 0; igrain < 2; igrain++) {
             for (int i = 0; i < Nx; i++) {
                 for (int j = 0; j < Nx; j++) {
-                    int im = i - 1, ip = i + 1, jm = j - 1, jp = j + 1;
+                    int im = i - 1, jm = j - 1, ip = i + 1, jp = j + 1;
                     if (im == -1) {
                         im = Nx - 1;
                     }
@@ -109,12 +107,18 @@ int main() {
                     double eta_u = grains.at(igrain).at(i).at(jp);
                     double eta_c = grains.at(igrain).at(i).at(j);
 
-                    grains_temp.at(igrain).at(i).at(j) = eta_c - 1.0 * dt * mobility * (df_deta(A, B, grain_square_sum.at(i).at(j), eta_c) - kappa * laplacian(eta_l, eta_r, eta_d, eta_u, eta_c, dx));
+                    grains_temp.at(igrain).at(i).at(j) = eta_c - mobility * dt * (df_deta(A, B, grain_square_sum.at(i).at(j), eta_c) - kappa * laplacian(eta_l, eta_r, eta_d, eta_u, eta_c, dx));
+
+                    if (grains_temp.at(igrain).at(i).at(j) > 1.0 - eta_trun) {
+                        grains_temp.at(igrain).at(i).at(j) = 1.0;
+                    }
+                    if (grains_temp.at(igrain).at(i).at(j) < eta_trun) {
+                        grains_temp.at(igrain).at(i).at(j) = 0.0;
+                    }
                 }
             }
         }
         grains = grains_temp;
-
         if (istep % pstep == 0) {
             auto ofs = create_vtk("./result", istep);
             write_vtk_head(ofs, "step_" + std::to_string(istep), dx, Nx, Nx);

@@ -108,7 +108,7 @@
 
     Let's have a look at the energy construction we are going to use for grain growth process:
     \[
-        F = \int_\omega f_b + \sum_{i}^{N}\frac{\kappa}{2} \left( \nabla \eta \right)^2 \,\mathrm{d}\Omega.
+        F = \int_\omega f_b + \sum_{i}^{N}\frac{\kappa_i}{2} \left( \nabla \eta \right)^2 \,\mathrm{d}\Omega.
     \]
     It looks very similar to the energy construction we haven seen before, with a little difference if we don't care about the exact bulk energy form. The boundary contribution here is not just a single term gonverned by `concentration', but a sum of square of \emph{field variable} or \emph{order parameter}. Here, \(N\) means that we have N-grains The order parameter acts like concentration, but the sum of order paramter could be any value instead of just be a fixed finite value. That's so-called \emph{non-conservative parameter}. We shall come back to this latter.
 
@@ -178,19 +178,19 @@
 
         \begin{tabular}{ccc}
             \hline
-            Parameters                          & Value                & Type           \\
+            Parameters                          & Value    & Type           \\
             \hline
-            \(N_x\) \& \(N_y\)                  & 64                   & \cverb|int|    \\
-            \(\mathrm{d}x\) \& \(\mathrm{d}y\)  & 0.5                  & \cverb|double| \\
-            \(\mathrm{d}t\)                     & 0.005                & \cverb|double| \\
-            simulation step (\cverb|nstep|)     & 20000                & \cverb|int|    \\
-            output step (\cverb|pstep|)         & 100                  & \cverb|int|    \\
-            initial grain size (\cverb|radius|) & \(14 \mathrm{d}x\)=7 & \cverb|int|    \\
-            mobility \(L_i\) (\cverb|mobility|) & 5.0                  & \cverb|double| \\
-            gradient coefficient \(\kappa\)     & 0.1                  & \cverb|double| \\
-            free energy parameter \(A,\,B\)     & 1.0                  & \cverb|double| \\
-            boundary condition                  & periodic             & -              \\
-            boundary value truncate             & 1e-6                 & \cverb|double| \\
+            \(N_x\) \& \(N_y\)                  & 64       & \cverb|int|    \\
+            \(\mathrm{d}x\) \& \(\mathrm{d}y\)  & 0.5      & \cverb|double| \\
+            \(\mathrm{d}t\)                     & 0.005    & \cverb|double| \\
+            simulation step (\cverb|nstep|)     & 20000    & \cverb|int|    \\
+            output step (\cverb|pstep|)         & 100      & \cverb|int|    \\
+            initial grain size (\cverb|radius|) & 14       & \cverb|int|    \\
+            mobility \(L_i\) (\cverb|mobility|) & 5.0      & \cverb|double| \\
+            gradient coefficient \(\kappa\)     & 0.1      & \cverb|double| \\
+            free energy parameter \(A,\,B\)     & 1.0      & \cverb|double| \\
+            boundary condition                  & periodic & -              \\
+            boundary value truncate             & 1e-6     & \cverb|double| \\
             \hline
         \end{tabular}
 
@@ -203,19 +203,19 @@
 
     Time iterate:
     \[
-        \scriptstyle
-        \eta_{i}^{n+1} = \eta^n_{i}+ \Delta t  M \nabla^2 \left( \frac{\delta F}{\delta \eta_{i}} \right)^n;
+        \textstyle
+        \eta_{i}^{n+1} = \eta^n_{i}- \Delta t  L \left( \frac{\delta F}{\delta \eta_{i}} \right)^n;
     \]
     Energy variation:
     \[
-        \scriptstyle
+        \textstyle
         \left( \frac{\delta F}{\delta \eta_i} \right)^n = \mu\left(\eta^n_{i}\right) - \kappa\nabla^2\eta^n_{i};
     \]
     Chemical potential:
-    \[
-        \scriptstyle
-        \mu(\eta_i^n) =  -A\eta_i^n+B(\eta_i^n)^3+2\eta_i^n\sum_{i\neq j}^{N}(\eta_j^n)^2;
-    \]
+    \begin{align*}
+        \textstyle \mu(\eta_i^n) & \textstyle =  -A\eta_i^n+B(\eta_i^n)^3+2\eta_i^n\sum_{j\ne{}i}^{N}(\eta_j^n)^2;                                     \\
+                                 & \textstyle = -A \eta_i^n+B(\eta_i^n)^3+2\eta_i^n\left( \sum_{j}^{N}\left( \eta_j^n \right)^2 - (\eta_i^n)^2 \right)
+    \end{align*}
 \end{frame}
 
 \begin{frame}[fragile]
@@ -232,7 +232,6 @@
                           \item Laplacian calculation
                           \item Data output
                       \end{itemize}
-                \item Constants
             \end{itemize}
         \end{column}
         \hspace{-20pt}
@@ -240,6 +239,7 @@
             \begin{itemize}
                 \item \cverb|main| function
                       \begin{itemize}
+                          \item Constants
                           \item Mesh initialization
                           \item Time step loop
                           \item Phase loop 1
