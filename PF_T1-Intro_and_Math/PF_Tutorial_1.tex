@@ -4,7 +4,7 @@
 \usepackage[T1]{fontenc}
 \usefonttheme[onlymath]{serif}
 
-\author{Zihang Wang}
+\author{AMoment}
 \title{Phase Field Tutorial}
 \subtitle{Introduction \& Mathematics 1}
 \institute{Central South University}
@@ -46,7 +46,7 @@
   \frametitle{Before Start\dots}
   \begin{itemize}
     \item Correct me if I'm wrong
-    \item Stop me if you're confusing
+    \item Stop me if you're confused
     \item Questions welcome
     \item On/Off line Q\&A sessions are OK.
   \end{itemize}
@@ -161,13 +161,14 @@
   \frametitle{Lagrange Multiplier}
   To solve such question, a common way is using a method called `Lagrange Multiplier' method.
 
-  Here's how to use it. Suppose we have a multi-variable function \(f : \mathbb{R}^n \supseteq U \to \mathbb{R}\), it's good enough that we could find
-  a extrema under constraints \(\phi_j : U \to \mathbb{R}^m\) where \(m<n\).
-
+  Here's how. Suppose we have a multi-variable function \(f : \mathbb{R}^n \supseteq U \to \mathbb{R}\), it's good enough that we could find
+  an extrema under constraints \(\phi_j : U \to \mathbb{R}^m\) where \(m<n\).
+ 
   First, we construct a helper function
-  \[F : \mathbb{R}^{n+1}\supseteq U' \to \mathbb{R},\]
+  \[F : \mathbb{R}^{n+m}\supseteq U' \to \mathbb{R},\]
   \[(x,\lambda) \mapsto f(x) - \sum_{i=1}^m \lambda_i \cdot \phi_i(x). \]
-  So this helper function contains the original function and the constraint.
+  Here, \(x\in U\) and \(\lambda \in \mathbb{R}^m\), the latter one is the `Lagrange Multiplier(s)'.
+  We can see \(F\) contains the original function and the constraints.
 \end{frame}
 
 \begin{frame}
@@ -268,7 +269,7 @@
 \end{frame}
 
 \begin{frame}
-  \frametitle{For brave}
+  \frametitle{For those who interested}
   If you are interested in derivation of E-L equation, here it is.
   \bigbreak
   Consider a function \(\eta(x)\) that takes \(0\) at end points \(x_1\),\(x_2\) of variable \(x\). Multiply this with a small number \(\varepsilon\),
@@ -282,7 +283,7 @@
 \end{frame}
 
 \begin{frame}
-  \frametitle{For brave}
+  \frametitle{For those who interested}
   Then, consider \(L(x,y,y')\) as nothing but a normal two variables function, i.e. \(L(y(\varepsilon),y'(\varepsilon))\), where \(y = f+\varepsilon\eta\) and \(y' = f'+\varepsilon\eta'\), then taking its derivative:
   \[\frac{\mathrm{d} L}{\mathrm{d} \varepsilon} = \frac{\partial L}{\partial y}\frac{\mathrm{d} y}{\mathrm{d} \varepsilon}+\frac{\partial L}{\partial y'}\frac{\mathrm{d} y'}{\mathrm{d} \varepsilon}.\]
   \[\frac{\mathrm{d} L}{\mathrm{d} \varepsilon} = \frac{\partial L}{\partial y}\eta+\frac{\partial L}{\partial y'}\eta'.\]
@@ -292,7 +293,7 @@
 \end{frame}
 
 \begin{frame}
-  \frametitle{For brave}
+  \frametitle{For those who interested}
   By our definition of \(\eta\), the last term \(\frac{\partial L}{\partial f'}\eta\Big|_{x_1}^{x_2}\) will be zero. Then free \(\eta\) as a arbitrary function, to make \(\Phi'(0) = 0\),
   the integrated inner part should be \(0\)
   \[\frac{\partial L}{\partial f}-\frac{\mathrm{d} }{\mathrm{d} x}\frac{\partial L}{\partial f'} = 0.\]
