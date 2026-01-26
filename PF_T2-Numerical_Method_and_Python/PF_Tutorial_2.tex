@@ -93,7 +93,7 @@
 
 \begin{frame}
     \frametitle{Numerical Method}
-    By now, you should have acquired the basic knowledge about phase field method. But how to carry out a simulation?
+    By now, you should have acquired the basic knowledge about the phase field method. But how to carry out a simulation?
     \bigbreak
     \pause
     The answer is: \emph{Numerical analysis}, or \emph{numerical methods}. That means breaking the mathematical problem into pieces and converting to computer programming
@@ -114,19 +114,19 @@
     As you can see, numerical analysis is a general concept, and for a particular problem, there should be a particular method, or say, algorithm, to solve it.
     And to find the proper methods to solve our questions, we should analysis the questions we are facing.
 
-    Let's look back at the two governing questions we mentioned before:
+    Let's look back at the two governing equations we mentioned before:
     \[
         \frac{\partial c_i}{\partial t} = \nabla \cdot M_{ij} \nabla \frac{\delta F}{\delta c_j \left( r,t \right)} \tag{Cahn-Hilliard}
     \]
     \[
         \frac{\partial \eta_p}{\partial t} = -L_{pq}\frac{\delta F}{\delta\eta_q\left( r,t \right)} \tag{Allen-Cahn}
     \]
-    So, the main question is, how to utilise these equations to evolute the field parameter as we want?
+    So, the main question is, how to utilize these equations to evolute the field parameter as we want?
 \end{frame}
 
 \begin{frame}
     \frametitle{Break Down the Questions}
-    By analysising these two equations (don't forget the exercises in the last tutorial), the following questions should be solved:
+    By analysising the two equations (don't forget the exercises in the last tutorial), the following questions shall be solved:
     \pause
     \begin{itemize}
         \item How to solve \emph{ordinary differential equations} and \emph{partial differential equations} (usually refered as \emph{ODE} and \emph{PDE})?
@@ -140,20 +140,21 @@
 
 \begin{frame}
     \frametitle{How Numerical Methods Work?}
-    One of the most obvious features of numerical methods is it use `discrete' to replace `continuous'. For example, taking derivative
-    can be approximated by small value interval divided by small variable interval, and integrate can be approximated by sum of small variable interval
-    times its corresponding mean value. Or, to make it clearer, in analytical method, you taking limit to achieve `continuous', while in
-    numerical method, you taking small interval to mimic limit.
+    One of the most obvious features of numerical methods is they use `discrete' things to replace `continuous' things. For example, taking derivative
+    can be approximated by division of small value intervals, and integrate can be approximated by sum of small variable intervals
+    times their corresponding mean values. Or, to make it clearer, in analytical method, you always take limit to achieve `continuous', while in
+    numerical method, you just drop the limits.
     \bigbreak
     \pause
-    By now you may have gotten idea of how to solve the sub-questions we mentioned above. If so, all you need is a great tool to check your idea.
+    By now you may get the idea about how to solve the sub-questions we mentioned above. If so, all you need is a great tool to check your idea.
+
     Here it comes: Python.
 \end{frame}
 
 \subsection{Welcome to Python!}
 \begin{frame}
     \frametitle{What's Python?}
-    Python is a kind of snake, and in the mean time, one of the most popular programming language in the world. Easy to learn, friendly grammar, and most important,
+    Python is a kind of snake, and in the mean time, one of the most popular programming language in the world. Easy to learn, friendly grammar, and most importantly,
     its large community, together with hundreds and thousands of great tutorials are Python's outstanding features.
     \bigbreak
     \pause
@@ -166,7 +167,7 @@
     \frametitle{Let's start with Python}
     Let's suppose your operating system is Windows\footnote{For users of *nix users, things are easier that just install it with the package manager you have (or like)}.
     Head to \bhref{https://www.python.org/downloads/}{{Python's download page}}, hit the `Download' button,
-    waiting for the downloading to complete, then you will get the installer. Install it, but remember,
+    and then you will get the installer. Install it, do remember,
     \bigbreak
     \pause
     \centerline{\large TOGGLE ADD TO THE PATH CHECKBOX!}
@@ -180,11 +181,11 @@
 
 \begin{frame}[fragile]
     \frametitle{Check your installation}
-    You must can't wait coding with Python, but before that, please check wheather you have installed your interpreter successfully:
+    You must can't wait coding with Python, but before that, please check wheather you have installed your interpreter successfully and correctly:
     \begin{enumerate}
         \item Open a shell (cmd or powershell, you can use \cverb|win + R| to open `run' and input \cverb|cmd| (if you prefer powershell, \cverb|powershell|))
         \item Input {\cverb|python --version|} and hit {\cverb|Enter|}.
-        \item If you installed successfully, you will get the version information about python.
+        \item If you installed correctly, you will get the version information about python.
         \item While, if you get something like `\emph{XXXX is not reconised as xxx}',
               that error message indicates that you might forget to \emph{add python.exe to PATH}. Re-install or add to PATH manually.
     \end{enumerate}
